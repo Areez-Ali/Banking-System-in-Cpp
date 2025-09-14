@@ -1,27 +1,21 @@
 #include <iostream>
 #include <string>
 #include <limits>
-
 using namespace std;
 
 const int MAX_ACCOUNTS = 100;
-
 struct Account {
     int accountNumber;
     string name;
-    double balance;
-};
-
+    double balance; };
 Account accounts[MAX_ACCOUNTS];
 int totalAccounts = 0;
-
 int findAccountIndex(int accNo) {
     for (int i = 0; i < totalAccounts; ++i) {
         if (accounts[i].accountNumber == accNo) return i;
     }
     return -1;
 }
-
 int promptForAccountIndexWithRetry() {
     while (true) {
         cout << "Enter Account Number (or 0 to cancel): ";
@@ -36,15 +30,11 @@ int promptForAccountIndexWithRetry() {
         int idx = findAccountIndex(accNo);
         if (idx != -1) return idx;
         cout << "❌ Account not found. Try again or enter 0 to cancel.\n";
-    }
-}
-
+    }}
 void createAccount() {
     if (totalAccounts >= MAX_ACCOUNTS) {
         cout << "Sorry, maximum number of accounts reached.\n";
-        return;
-    }
-
+        return; }
     int accNo;
     while (true) {
         cout << "\nEnter Account Number: ";
@@ -60,7 +50,6 @@ void createAccount() {
         }
         break;
     }
-
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     Account newAcc;
     newAcc.accountNumber = accNo;
@@ -73,11 +62,9 @@ void createAccount() {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-
     accounts[totalAccounts++] = newAcc;
     cout << "✅ Account Created Successfully!\n";
 }
-
 void depositMoney() {
     int idx = promptForAccountIndexWithRetry();
     if (idx == -1) { cout << "Operation cancelled.\n"; return; }
@@ -92,7 +79,6 @@ void depositMoney() {
     accounts[idx].balance += amount;
     cout << "✅ Deposit Successful! New Balance: " << accounts[idx].balance << endl;
 }
-
 void withdrawMoney() {
     int idx = promptForAccountIndexWithRetry();
     if (idx == -1) { cout << "Operation cancelled.\n"; return; }
@@ -111,13 +97,14 @@ void withdrawMoney() {
         cout << "❌ Insufficient Balance! Current Balance: " << accounts[idx].balance << endl;
     }
 }
-
 void checkBalance() {
     int idx = promptForAccountIndexWithRetry();
     if (idx == -1) { cout << "Operation cancelled.\n"; return; }
     cout << "Account Holder: " << accounts[idx].name << endl;
     cout << "Balance: " << accounts[idx].balance << endl;
 }
+
+
 
 int main() {
     int choice;
@@ -135,7 +122,6 @@ int main() {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         }
-
         switch (choice) {
             case 1: createAccount(); break;
             case 2: depositMoney(); break;
@@ -145,6 +131,5 @@ int main() {
             default: cout << "❌ Invalid Choice! Try again.\n";
         }
     } while (choice != 5);
-
     return 0;
 }
